@@ -8,6 +8,7 @@ import { Card } from '../components/ui/Card'
 import { cn } from '../utils/cn'
 import { translateLocation } from '../utils/translations'
 import { useSettings } from '../state/SettingsContext'
+import { DrivingTimesInfo } from '../components/DrivingTimesInfo'
 
 export function TimelineView() {
   const { language } = useSettings()
@@ -44,7 +45,7 @@ export function TimelineView() {
           className="mt-6 inline-flex items-center gap-2 bg-white/20 backdrop-blur px-6 py-3 rounded-full"
         >
           <Calendar className="h-5 w-5" />
-          <span className="font-medium">October 6–15, 2025 • 10 Days</span>
+          <span className="font-medium">October 10–20, 2025 • 11 Days</span>
         </motion.div>
       </motion.div>
 
@@ -122,9 +123,12 @@ export function TimelineView() {
                       </h3>
                       
                       {day.driveInfo && (
-                        <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 bg-white/50 dark:bg-gray-800/50 rounded-lg px-3 py-2">
-                          <Car className="h-4 w-4 text-blue-600" />
-                          <span className="font-medium">{day.driveInfo}</span>
+                        <div>
+                          <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 bg-white/50 dark:bg-gray-800/50 rounded-lg px-3 py-2">
+                            <Car className="h-4 w-4 text-blue-600" />
+                            <span className="font-medium">{day.driveInfo}</span>
+                          </div>
+                          <DrivingTimesInfo driveInfo={day.driveInfo} />
                         </div>
                       )}
                     </div>

@@ -1,53 +1,62 @@
 import type { TripData } from './types'
 
 export const tripData: TripData = {
-  startISO: '2025-10-06',
-  endISO: '2025-10-15',
+  startISO: '2025-10-10',
+  endISO: '2025-10-20',
   days: [
-    { dayNumber: 1, dateISO: '2025-10-06', cityArea: 'Rome', summary: 'Historic center walk. Dinner in Trastevere.', sleepSuggestion: 'Stay in Monti/Trastevere', stops: [
-      { id: 'd1-1', type: 'sight', title: 'Piazza Navona → Pantheon → Trevi → Spanish Steps' },
+    { dayNumber: 1, dateISO: '2025-10-10', cityArea: 'Rome', summary: 'Historic center walk. Dinner in Trastevere or Monti.', sleepSuggestion: 'Stay in Monti/Trastevere', stops: [
+      { id: 'd1-1', type: 'sight', title: 'Pantheon → Trevi Fountain → Spanish Steps' },
       { id: 'd1-2', type: 'food', title: 'Dinner in Trastevere' },
     ] },
-    { dayNumber: 2, dateISO: '2025-10-07', cityArea: 'Rome', summary: 'Vatican AM (prebook), Colosseum PM.', sleepSuggestion: 'Rome center', stops: [
-      { id: 'd2-1', type: 'sight', title: 'Vatican Museums + St. Peter’s' },
-      { id: 'd2-2', type: 'sight', title: 'Colosseum + Forum' },
+    { dayNumber: 2, dateISO: '2025-10-11', cityArea: 'Rome', summary: 'Vatican early morning (prebook), Colosseum & Forum afternoon.', sleepSuggestion: 'Rome center', stops: [
+      { id: 'd2-1', type: 'sight', title: 'Vatican Museums + St. Peter\'s (early)' },
+      { id: 'd2-2', type: 'sight', title: 'Colosseum + Roman Forum' },
     ] },
-    { dayNumber: 3, dateISO: '2025-10-08', cityArea: 'Val d\'Orcia', summary: 'Pick up car, Orvieto stop, Pienza & Montepulciano.', driveInfo: 'Rome → Orvieto → Val d\'Orcia', sleepSuggestion: 'Agriturismo near Pienza/Bagno Vignoni', stops: [
-      { id: 'd3-1', type: 'sight', title: 'Orvieto (Duomo, lunch)' },
-      { id: 'd3-2', type: 'sight', title: 'Pienza' },
-      { id: 'd3-3', type: 'sight', title: 'Montepulciano (Vino Nobile)' },
+    { dayNumber: 3, dateISO: '2025-10-12', cityArea: 'Rome', summary: 'Final Rome highlights, Monti evening.', sleepSuggestion: 'Rome center', stops: [
+      { id: 'd3-1', type: 'sight', title: 'Piazza Navona & Campo de\' Fiori' },
+      { id: 'd3-2', type: 'food', title: 'Monti district evening' },
     ] },
-    { dayNumber: 4, dateISO: '2025-10-09', cityArea: 'Val d\'Orcia', summary: 'Montalcino (Brunello), San Quirico, thermal pause.', sleepSuggestion: 'Siena or Val d\'Orcia', stops: [
-      { id: 'd4-1', type: 'sight', title: 'Montalcino (Brunello tasting)' },
-      { id: 'd4-2', type: 'sight', title: 'San Quirico d’Orcia' },
-      { id: 'd4-3', type: 'sight', title: 'Bagno Vignoni or Bagni San Filippo' },
+    { dayNumber: 4, dateISO: '2025-10-13', cityArea: 'Rome → Val d\'Orcia', summary: 'Pick up car, drive to Tuscany via Orvieto.', driveInfo: 'Rome → Orvieto (1h30) → Pienza (1h30)', sleepSuggestion: 'Agriturismo near Pienza/Bagno Vignoni', stops: [
+      { id: 'd4-1', type: 'sight', title: 'Orvieto Cathedral & white wine', time: '1h30 from Rome' },
+      { id: 'd4-2', type: 'sight', title: 'Pienza (pecorino cheese)' },
+      { id: 'd4-3', type: 'sight', title: 'Montepulciano (Vino Nobile)' },
     ] },
-    { dayNumber: 5, dateISO: '2025-10-10', cityArea: 'Siena → Chianti → Florence', summary: 'Siena AM, SR222 via Castellina/Greve → Florence. Return car.', driveInfo: 'Siena → Greve → Florence (SR222)', sleepSuggestion: 'Florence center', stops: [
-      { id: 'd5-1', type: 'sight', title: 'Siena (Duomo, Il Campo)' },
-      { id: 'd5-2', type: 'sight', title: 'Castellina in Chianti' },
-      { id: 'd5-3', type: 'sight', title: 'Greve in Chianti (Cantine di Greve)' },
+    { dayNumber: 5, dateISO: '2025-10-14', cityArea: 'Val d\'Orcia', summary: 'Explore Val d\'Orcia: wine tasting, hot springs, hilltop towns.', sleepSuggestion: 'Agriturismo in Val d\'Orcia', stops: [
+      { id: 'd5-1', type: 'sight', title: 'Montalcino (Brunello tasting)' },
+      { id: 'd5-2', type: 'sight', title: 'Bagno Vignoni hot springs', time: '30 min drive' },
+      { id: 'd5-3', type: 'lodging', title: 'Agriturismo with vineyard views' },
     ] },
-    { dayNumber: 6, dateISO: '2025-10-11', cityArea: 'Florence', summary: 'Duomo, Accademia (David), lunch Mercato Centrale, Boboli, sunset Piazzale Michelangelo.', sleepSuggestion: 'Florence center', stops: [
-      { id: 'd6-1', type: 'sight', title: 'Duomo + Campanile' },
-      { id: 'd6-2', type: 'sight', title: 'Accademia (David)' },
-      { id: 'd6-3', type: 'food', title: 'Mercato Centrale lunch' },
-      { id: 'd6-4', type: 'sight', title: 'Boboli Gardens' },
-      { id: 'd6-5', type: 'sight', title: 'Piazzale Michelangelo (sunset)' },
+    { dayNumber: 6, dateISO: '2025-10-15', cityArea: 'Siena', summary: 'Siena morning: Piazza del Campo & Duomo.', driveInfo: 'Val d\'Orcia → Siena (1h15)', sleepSuggestion: 'Siena historic center', stops: [
+      { id: 'd6-1', type: 'sight', title: 'Piazza del Campo' },
+      { id: 'd6-2', type: 'sight', title: 'Siena Cathedral' },
+      { id: 'd6-3', type: 'food', title: 'Lunch in Siena' },
     ] },
-    { dayNumber: 7, dateISO: '2025-10-12', cityArea: 'Florence → Venice', summary: 'Train to Venice (~2h15). Check-in on-island. Rialto & cicchetti.', sleepSuggestion: 'Venice (Cannaregio/Dorsoduro)', stops: [
-      { id: 'd7-1', type: 'sight', title: 'Train to Venice' },
-      { id: 'd7-2', type: 'food', title: 'Cicchetti near Rialto' },
+    { dayNumber: 7, dateISO: '2025-10-16', cityArea: 'Siena → Florence', summary: 'Chianti road SR222: Castellina, Greve, wineries. Return car in Florence.', driveInfo: 'Siena → Greve (1h15) → Florence (45min)', sleepSuggestion: 'Florence center', stops: [
+      { id: 'd7-1', type: 'sight', title: 'Castellina in Chianti' },
+      { id: 'd7-2', type: 'food', title: 'Greve wineries (SR222)' },
+      { id: 'd7-3', type: 'other', title: 'Return car, avoid ZTL' },
     ] },
-    { dayNumber: 8, dateISO: '2025-10-13', cityArea: 'Venice', summary: 'Dorsoduro/Salute/Peggy Guggenheim or Burano + Murano.', sleepSuggestion: 'Venice', stops: [
-      { id: 'd8-1', type: 'sight', title: 'San Marco / Doge’s Palace (optional)' },
-      { id: 'd8-2', type: 'sight', title: 'Burano + Murano (option)' },
+    { dayNumber: 8, dateISO: '2025-10-17', cityArea: 'Florence', summary: 'Duomo, David at Accademia, Mercato Centrale, sunset at Piazzale Michelangelo.', sleepSuggestion: 'Florence center', stops: [
+      { id: 'd8-1', type: 'sight', title: 'Duomo (optional climb)' },
+      { id: 'd8-2', type: 'sight', title: 'Accademia (David - timed ticket)' },
+      { id: 'd8-3', type: 'food', title: 'Mercato Centrale lunch' },
+      { id: 'd8-4', type: 'sight', title: 'Piazzale Michelangelo (sunset)' },
     ] },
-    { dayNumber: 9, dateISO: '2025-10-14', cityArea: 'Venice', summary: 'Slow morning photos, Campanile, last museums, shopping.', sleepSuggestion: 'Venice', stops: [
-      { id: 'd9-1', type: 'sight', title: 'Campanile view' },
-      { id: 'd9-2', type: 'sight', title: 'Canareggio evening' },
+    { dayNumber: 9, dateISO: '2025-10-18', cityArea: 'Florence → Venice', summary: 'Drive to Venice, optional Padua stop. Return car at Piazzale Roma.', driveInfo: 'Florence → Venice (3h15 direct) or via Padua (+1h15)', sleepSuggestion: 'Venice on-island (Cannaregio/Dorsoduro)', stops: [
+      { id: 'd9-1', type: 'other', title: 'Optional: Padua stop' },
+      { id: 'd9-2', type: 'other', title: 'Return car at Piazzale Roma' },
+      { id: 'd9-3', type: 'other', title: 'Vaporetto to hotel' },
     ] },
-    { dayNumber: 10, dateISO: '2025-10-15', cityArea: 'Venice', summary: 'Fly out: Alilaguna or water taxi to VCE.', stops: [
-      { id: 'd10-1', type: 'other', title: 'Transfer to VCE (2–3h early)' },
+    { dayNumber: 10, dateISO: '2025-10-19', cityArea: 'Venice', summary: 'St. Mark\'s, Doge\'s Palace, Rialto. Gondola at dusk. Cicchetti bars.', sleepSuggestion: 'Venice', stops: [
+      { id: 'd10-1', type: 'sight', title: 'St. Mark\'s Square & Basilica' },
+      { id: 'd10-2', type: 'sight', title: 'Doge\'s Palace' },
+      { id: 'd10-3', type: 'sight', title: 'Rialto Bridge' },
+      { id: 'd10-4', type: 'food', title: 'Cicchetti in bacari' },
+    ] },
+    { dayNumber: 11, dateISO: '2025-10-20', cityArea: 'Venice', summary: 'Burano & Murano islands. Seafood risotto. Last evening.', sleepSuggestion: 'Venice', stops: [
+      { id: 'd11-1', type: 'sight', title: 'Burano (colorful houses)' },
+      { id: 'd11-2', type: 'sight', title: 'Murano (glass workshops)' },
+      { id: 'd11-3', type: 'food', title: 'Seafood risotto dinner' },
     ] },
   ],
   points: [
@@ -107,9 +116,19 @@ export const tripData: TripData = {
     { id: 'campanile', title: 'St. Mark\'s Campanile', category: 'sight', lat: 45.4342, lng: 12.3386, region: 'Venice', day: 9, description: 'Bell tower with panoramic views' },
     { id: 'cannaregio', title: 'Cannaregio Evening', category: 'food', lat: 45.4444, lng: 12.3275, region: 'Venice', day: 9, description: 'Local neighborhood away from crowds' },
     
-    // Day 10 - Departure
-    { id: 'venice-airport', title: 'Venice Airport (End)', category: 'other', lat: 45.5053, lng: 12.3519, region: 'Venice', day: 10, description: 'Trip ending point', isEnd: true },
+    // Day 11 - Final Venice Day
+    { id: 'venice-final', title: 'Venice (Final Day)', category: 'other', lat: 45.4408, lng: 12.3155, region: 'Venice', day: 11, description: 'Last memories before departure', isEnd: true },
   ],
+  drivingTimes: [
+    { from: 'Rome', to: 'Orvieto', duration: '1h 30min', distance: '121 km' },
+    { from: 'Orvieto', to: 'Pienza', duration: '1h 30min', distance: '95 km' },
+    { from: 'Val d\'Orcia', to: 'Siena', duration: '1h 15min', distance: '60 km' },
+    { from: 'Siena', to: 'Greve', duration: '1h 15min', distance: '50 km' },
+    { from: 'Greve', to: 'Florence', duration: '45min', distance: '30 km' },
+    { from: 'Florence', to: 'Venice', duration: '3h 15min', distance: '260 km' },
+    { from: 'Florence', to: 'Padua', duration: '2h 30min', distance: '210 km' },
+    { from: 'Padua', to: 'Venice', duration: '45min', distance: '40 km' },
+  ]
 }
 
 

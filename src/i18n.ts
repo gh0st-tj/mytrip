@@ -9,7 +9,7 @@ export const languages = {
 const resources = {
   en: {
     translation: {
-      appTitle: 'Italy Trip Planner · Oct 6–15',
+      appTitle: 'Italy Trip Planner · Oct 10–20',
       viewDayByDay: 'Day-by-Day',
       viewMap: 'Map',
       view: 'View',
@@ -75,7 +75,7 @@ const resources = {
   },
   he: {
     translation: {
-      appTitle: 'מתכנן הטיול לאיטליה · 6–15 באוקטובר',
+      appTitle: 'מתכנן הטיול לאיטליה · 10–20 באוקטובר',
       viewDayByDay: 'יום־יום',
       viewMap: 'מפה',
       view: 'תצוגה',

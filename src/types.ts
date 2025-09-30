@@ -58,11 +58,19 @@ export interface DayPlan {
   notes?: string
 }
 
+export interface DrivingTime {
+  from: string
+  to: string
+  duration: string
+  distance: string
+}
+
 export interface TripData {
   startISO: string
   endISO: string
   days: DayPlan[]
   points: GeoPoint[]
+  drivingTimes?: DrivingTime[]
 }
 
 export interface MapFilter {

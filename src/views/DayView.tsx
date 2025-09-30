@@ -12,6 +12,7 @@ import { cn } from '../utils/cn'
 import { translateLocation } from '../utils/translations'
 import { useSettings } from '../state/SettingsContext'
 import { PhotoLightbox } from '../components/PhotoLightbox'
+import { DrivingTimesInfo } from '../components/DrivingTimesInfo'
 
 function useLocalState<T>(key: string, initial: T) {
   const [value, setValue] = useState<T>(() => {
@@ -50,7 +51,7 @@ export function DayView() {
     setIsPlaying(true)
     intervalRef.current = setInterval(() => {
       setCurrentDay(prev => {
-        if (prev >= 10) {
+        if (prev >= 11) {
           setIsPlaying(false)
           if (intervalRef.current) clearInterval(intervalRef.current)
           return 1
@@ -121,7 +122,7 @@ export function DayView() {
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 0.8 }}
             >
-              October 6–15, 2025
+              October 10–20, 2025
             </motion.div>
             <motion.p 
               className="mt-6 sm:mt-8 text-base sm:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed px-4"
@@ -200,19 +201,19 @@ export function DayView() {
                   {isPlaying ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
                   <span className="text-xs">{isPlaying ? 'Pause' : 'Play'}</span>
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.min(10, currentDay + 1))}>
+                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.min(11, currentDay + 1))}>
                   <SkipForward className="h-4 w-4" />
                 </Button>
               </div>
               <div className="text-xs font-semibold text-gray-600 dark:text-gray-400">
-                Day {currentDay} of 10
+                Day {currentDay} of 11
               </div>
             </div>
             
             {/* Bottom Row: Day selector dots */}
             <div className="overflow-x-auto -mx-3 px-3">
               <div className="flex gap-1.5 min-w-min">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map(day => (
+                {Array.from({ length: 11 }, (_, i) => i + 1).map(day => (
                   <button
                     key={day}
                     onClick={() => setCurrentDay(day)}
@@ -240,18 +241,18 @@ export function DayView() {
                 <Button size="sm" onClick={playthrough}>
                   {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
                 </Button>
-                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.min(10, currentDay + 1))}>
+                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.min(11, currentDay + 1))}>
                   <SkipForward className="h-4 w-4" />
                 </Button>
               </div>
               <div className="text-sm font-medium">
-                {t('dayOf', { current: currentDay, total: 10 })}
+                {t('dayOf', { current: currentDay, total: 11 })}
               </div>
             </div>
             
             {/* Day selector dots - Desktop */}
             <div className="flex gap-2">
-              {Array.from({ length: 10 }, (_, i) => i + 1).map(day => (
+              {Array.from({ length: 11 }, (_, i) => i + 1).map(day => (
                 <button
                   key={day}
                   onClick={() => setCurrentDay(day)}
@@ -304,15 +305,27 @@ export function DayView() {
                         </div>
                       </div>
                       {currentDayData.driveInfo && (
-                        <motion.div 
-                          className="flex items-center gap-3 p-3 bg-white/60 dark:bg-gray-800/60 rounded-lg backdrop-blur"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.3 }}
-                        >
-                          <Car className="h-5 w-5 text-blue-600" />
-                          <span className="text-sm font-medium">{t('drive')}: {currentDayData.driveInfo}</span>
-                        </motion.div>
+                        <div>
+                          <motion.div 
+                            className="flex items-start gap-3 p-4 bg-gradient-to-r from-blue-50 to-cyan-50 dark:from-blue-950/40 dark:to-cyan-950/40 rounded-xl border-l-4 border-blue-500"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                          >
+                            <div className="p-2 bg-blue-500 rounded-lg shrink-0">
+                              <Car className="h-5 w-5 text-white" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <div className="text-xs font-semibold text-blue-900 dark:text-blue-300 uppercase tracking-wide mb-1">
+                                Driving Route
+                              </div>
+                              <div className="text-sm font-medium text-gray-900 dark:text-white">
+                                {currentDayData.driveInfo}
+                              </div>
+                              <DrivingTimesInfo driveInfo={currentDayData.driveInfo} />
+                            </div>
+                          </motion.div>
+                        </div>
                       )}
                     </div>
                     <div className="flex gap-3">

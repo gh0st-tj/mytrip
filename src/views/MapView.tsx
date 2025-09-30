@@ -233,7 +233,7 @@ export function MapView() {
       
       if (currentStep + 1 >= dayPoints.length) {
         // Finished current day, move to next day
-        if (currentDay >= 10) {
+        if (currentDay >= 11) {
           setIsPlaying(false)
           if (intervalRef.current) clearInterval(intervalRef.current)
           return
@@ -264,7 +264,7 @@ export function MapView() {
           })
         
         if (currentStep + 1 >= dayPoints.length) {
-          if (currentDay >= 10) {
+          if (currentDay >= 11) {
             setIsPlaying(false)
             if (intervalRef.current) clearInterval(intervalRef.current)
             return
@@ -439,7 +439,7 @@ export function MapView() {
             {/* Day Pills - Second Row */}
             <div className="mt-2 overflow-x-auto -mx-3 px-3">
               <div className="flex items-center gap-1.5 min-w-min">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map(day => {
+                {Array.from({ length: 11 }, (_, i) => i + 1).map(day => {
                   const isSelected = mapFilter.selectedDay === day
                   const isPlayingThisDay = isPlaying && playbackDay === day
                   

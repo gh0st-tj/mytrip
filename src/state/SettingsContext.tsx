@@ -16,7 +16,8 @@ const SettingsContext = createContext<SettingsContextValue | undefined>(undefine
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const [language, setLanguageState] = useState<LanguageCode>((localStorage.getItem('lang') as LanguageCode) || 'en')
-  const [theme, setThemeState] = useState<Theme>((localStorage.getItem('theme') as Theme) || 'system')
+  const storedTheme = localStorage.getItem('theme') as Theme
+  const [theme, setThemeState] = useState<Theme>(storedTheme === 'system' ? 'light' : (storedTheme || 'light'))
 
   useEffect(() => {
     i18n.changeLanguage(language)

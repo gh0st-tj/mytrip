@@ -59,7 +59,8 @@ export function Header({ active, onChangeView }: { active: ViewType, onChangeVie
           </div>
 
           <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            <div className="hidden md:flex items-center gap-0.5 rounded-lg border border-gray-200 dark:border-gray-800 p-0.5 bg-gray-50 dark:bg-gray-900">
+            {/* Language Selector - Always Visible */}
+            <div className="flex items-center gap-0.5 rounded-lg border border-gray-200 dark:border-gray-800 p-0.5 bg-gray-50 dark:bg-gray-900">
               {[
                 { code: 'en', label: 'EN', flag: '🇺🇸' },
                 { code: 'he', label: 'עב', flag: '🇮🇱' }
@@ -68,32 +69,32 @@ export function Header({ active, onChangeView }: { active: ViewType, onChangeVie
                   key={code}
                   onClick={() => setLanguage(code as 'en' | 'he')}
                   className={cn(
-                    'flex items-center gap-1 px-2 py-1 text-xs font-medium rounded transition-all duration-200 min-h-[32px]',
+                    'flex items-center gap-1 px-2 py-1.5 text-xs font-medium rounded transition-all duration-200 min-h-[36px]',
                     language === code
                       ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-950 dark:text-white'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+                      : 'text-gray-600 active:text-gray-900 dark:text-gray-400 dark:active:text-white'
                   )}
                 >
-                  <span>{flag}</span>
-                  <span className="hidden lg:inline">{label}</span>
+                  <span className="text-base">{flag}</span>
+                  <span className="hidden sm:inline">{label}</span>
                 </button>
               ))}
             </div>
 
+            {/* Theme Selector - Light/Dark Only */}
             <div className="flex items-center gap-0.5 rounded-lg border border-gray-200 dark:border-gray-800 p-0.5 bg-gray-50 dark:bg-gray-900">
               {[
                 { value: 'light', icon: '☀️', label: 'Light' },
-                { value: 'dark', icon: '🌙', label: 'Dark' },
-                { value: 'system', icon: '💻', label: 'Auto' }
+                { value: 'dark', icon: '🌙', label: 'Dark' }
               ].map(({ value, icon, label }) => (
                 <button
                   key={value}
                   onClick={() => setTheme(value as any)}
                   className={cn(
-                    'flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 text-base font-medium rounded transition-all duration-200',
+                    'flex items-center justify-center w-9 h-9 text-lg font-medium rounded transition-all duration-200',
                     theme === value
                       ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-950 dark:text-white'
-                      : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white'
+                      : 'text-gray-600 active:text-gray-900 dark:text-gray-400 dark:active:text-white'
                   )}
                   title={label}
                   aria-label={label}
