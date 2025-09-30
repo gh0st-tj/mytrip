@@ -1,9 +1,9 @@
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Upload, Play, Pause, Filter, Camera, MapPin as MapPinIcon, ChevronDown, X, Plus, Image } from 'lucide-react'
+import { Play, Pause, Filter, Camera } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import React, { useMemo, useRef, useState, useEffect } from 'react'
+import { useMemo, useRef, useState, useEffect } from 'react'
 import { tripData } from '../data'
 import type { GeoPoint, MapFilter, CityInfo, PhotoEntry, LocationNote } from '../types'
 import { importGeoPointsFromFile } from '../utils/importers'
@@ -18,11 +18,8 @@ import { PhotoLightbox } from '../components/PhotoLightbox'
 
 // Enhanced Leaflet icons
 import L from 'leaflet'
-// @ts-expect-error - assets handled by bundler
 import marker2x from 'leaflet/dist/images/marker-icon-2x.png'
-// @ts-expect-error
 import marker from 'leaflet/dist/images/marker-icon.png'
-// @ts-expect-error
 import shadow from 'leaflet/dist/images/marker-shadow.png'
 L.Icon.Default.mergeOptions({ iconRetinaUrl: marker2x, iconUrl: marker, shadowUrl: shadow })
 
@@ -624,7 +621,7 @@ export function MapView() {
         )}
         
         {/* Markers */}
-        {(isPlaying ? playbackPoints : filteredPoints).map((point, index) => {
+        {(isPlaying ? playbackPoints : filteredPoints).map((point) => {
           const isCurrentStep = isPlaying && point.visitOrder === playbackStep + 1
           
           return (
@@ -853,8 +850,8 @@ function CurrentStepZoom({ day, step, allPoints }: { day: number, step: number, 
   return null
 }
 
-function getBadgeVariant(category: string) {
-  const variants = {
+function getBadgeVariant(category: string): 'city' | 'food' | 'lodging' | 'sight' | 'default' {
+  const variants: Record<string, 'city' | 'food' | 'lodging' | 'sight' | 'default'> = {
     city: 'city',
     food: 'food',
     lodging: 'lodging',
@@ -865,8 +862,8 @@ function getBadgeVariant(category: string) {
   return variants[category] || 'default'
 }
 
-function getCategoryIcon(category: string) {
-  const icons = {
+function getCategoryIcon(category: string): string {
+  const icons: Record<string, string> = {
     city: '🏙️',
     food: '🍽️',
     lodging: '🏨',
@@ -877,8 +874,8 @@ function getCategoryIcon(category: string) {
   return icons[category] || '📍'
 }
 
-function getCategoryLabel(category: string, t: any) {
-  const labels = {
+function getCategoryLabel(category: string, t: any): string {
+  const labels: Record<string, string> = {
     city: t('cities'),
     food: t('food'),
     lodging: t('lodging'),

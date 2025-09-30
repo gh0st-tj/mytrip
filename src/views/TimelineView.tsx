@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
-import { MapPin, Calendar, Car, Moon, Camera } from 'lucide-react'
+import { MapPin, Calendar, Car, Moon } from 'lucide-react'
 import { format, parseISO } from 'date-fns'
-import { useTranslation } from 'react-i18next'
 import { useState } from 'react'
 import { tripData } from '../data'
 import { Badge } from '../components/ui/Badge'
@@ -11,7 +10,6 @@ import { translateLocation } from '../utils/translations'
 import { useSettings } from '../state/SettingsContext'
 
 export function TimelineView() {
-  const { t } = useTranslation()
   const { language } = useSettings()
   const [hoveredDay, setHoveredDay] = useState<number | null>(null)
 

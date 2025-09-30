@@ -520,8 +520,8 @@ export function DayView() {
   )
 }
 
-function getBadgeVariant(type: StopItem['type']) {
-  const variants = {
+function getBadgeVariant(type: StopItem['type']): 'city' | 'food' | 'lodging' | 'sight' | 'default' {
+  const variants: Record<StopItem['type'], 'city' | 'food' | 'lodging' | 'sight' | 'default'> = {
     city: 'city',
     food: 'food',
     lodging: 'lodging',

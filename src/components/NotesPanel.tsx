@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MessageCircle, X, Send, User } from 'lucide-react'
-import { useTranslation } from 'react-i18next'
 import type { LocationNote } from '../types'
 import { Button } from './ui/Button'
 import { Card } from './ui/Card'
@@ -26,8 +25,7 @@ const NOTE_COLORS = [
   '#fed7aa', // orange
 ]
 
-export function NotesPanel({ locationId, locationName, notes, onAddNote, onDeleteNote }: NotesPanelProps) {
-  const { t } = useTranslation()
+export function NotesPanel({ locationName, notes, onAddNote, onDeleteNote }: NotesPanelProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [author, setAuthor] = useState(() => localStorage.getItem('tripNotesAuthor') || '')
   const [content, setContent] = useState('')
