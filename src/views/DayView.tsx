@@ -108,7 +108,7 @@ export function DayView() {
               ✈️ Tom & Alina's
             </motion.div>
             <motion.h1 
-              className="text-5xl sm:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl"
+              className="text-4xl sm:text-7xl lg:text-8xl font-black text-white drop-shadow-2xl"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
@@ -116,7 +116,7 @@ export function DayView() {
               ITALY
             </motion.h1>
             <motion.div 
-              className="text-3xl sm:text-4xl font-light text-white/90 mt-4"
+              className="text-xl sm:text-3xl lg:text-4xl font-light text-white/90 mt-3 sm:mt-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1, duration: 0.8 }}
@@ -124,7 +124,7 @@ export function DayView() {
               October 6–15, 2025
             </motion.div>
             <motion.p 
-              className="mt-8 text-xl text-white/80 max-w-2xl mx-auto leading-relaxed"
+              className="mt-6 sm:mt-8 text-base sm:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2, duration: 0.8 }}
@@ -132,17 +132,16 @@ export function DayView() {
               Rome → Val d'Orcia → Chianti → Florence → Venice
             </motion.p>
             <motion.div
-              className="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
+              className="mt-8 sm:mt-12 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.4, duration: 0.8 }}
             >
               <Button 
                 size="lg" 
-                className="bg-white text-gray-900 hover:bg-gray-100 shadow-2xl"
+                className="bg-white text-gray-900 hover:bg-gray-100 shadow-2xl w-full sm:w-auto"
                 onClick={() => {
                   setCurrentDay(1)
-                  // Scroll to content after hero
                   setTimeout(() => {
                     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
                   }, 100)
@@ -154,10 +153,9 @@ export function DayView() {
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="border-white/30 text-white hover:bg-white/10 backdrop-blur"
+                className="border-white/30 text-white hover:bg-white/10 backdrop-blur w-full sm:w-auto"
                 onClick={() => {
                   playthrough()
-                  // Scroll to content after hero
                   setTimeout(() => {
                     window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })
                   }, 100)
@@ -182,15 +180,58 @@ export function DayView() {
         </motion.div>
       </motion.section>
 
-      {/* Playback Controls */}
+      {/* Mobile-Optimized Playback Controls */}
       <motion.div 
-        className="sticky top-16 z-40 bg-white/95 dark:bg-gray-900/95 backdrop-blur border-b"
+        className="sticky top-16 z-40 bg-white/98 dark:bg-gray-900/98 backdrop-blur-lg border-b shadow-sm"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ delay: 1.5, duration: 0.5 }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 py-3">
+          {/* Mobile Layout */}
+          <div className="flex flex-col gap-3 sm:hidden">
+            {/* Top Row: Navigation + Play */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.max(1, currentDay - 1))}>
+                  <SkipBack className="h-4 w-4" />
+                </Button>
+                <Button size="sm" onClick={playthrough} className="min-w-[80px]">
+                  {isPlaying ? <Pause className="h-4 w-4 mr-1" /> : <Play className="h-4 w-4 mr-1" />}
+                  <span className="text-xs">{isPlaying ? 'Pause' : 'Play'}</span>
+                </Button>
+                <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.min(10, currentDay + 1))}>
+                  <SkipForward className="h-4 w-4" />
+                </Button>
+              </div>
+              <div className="text-xs font-semibold text-gray-600 dark:text-gray-400">
+                Day {currentDay} of 10
+              </div>
+            </div>
+            
+            {/* Bottom Row: Day selector dots */}
+            <div className="overflow-x-auto -mx-3 px-3">
+              <div className="flex gap-1.5 min-w-min">
+                {Array.from({ length: 10 }, (_, i) => i + 1).map(day => (
+                  <button
+                    key={day}
+                    onClick={() => setCurrentDay(day)}
+                    className={cn(
+                      "w-9 h-9 rounded-full text-xs font-bold transition-all duration-200 shrink-0",
+                      currentDay === day 
+                        ? "bg-gradient-to-br from-blue-500 to-purple-600 text-white shadow-md" 
+                        : "bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 active:bg-gray-300 dark:active:bg-gray-600"
+                    )}
+                  >
+                    {day}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Layout */}
+          <div className="hidden sm:flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <Button size="sm" variant="outline" onClick={() => setCurrentDay(Math.max(1, currentDay - 1))}>
@@ -208,7 +249,7 @@ export function DayView() {
               </div>
             </div>
             
-            {/* Day selector dots */}
+            {/* Day selector dots - Desktop */}
             <div className="flex gap-2">
               {Array.from({ length: 10 }, (_, i) => i + 1).map(day => (
                 <button
@@ -230,7 +271,7 @@ export function DayView() {
       </motion.div>
 
       {/* Current Day Content */}
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8">
         <AnimatePresence mode="wait">
           {currentDayData && (
             <motion.div
@@ -239,10 +280,10 @@ export function DayView() {
               animate={{ opacity: 1, x: 0, scale: 1 }}
               exit={{ opacity: 0, x: -100, scale: 0.95 }}
               transition={{ duration: 0.6, ease: "easeInOut" }}
-              className="mb-16"
+              className="mb-8 sm:mb-16"
             >
               <Card className="overflow-hidden shadow-2xl border-0">
-                <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 p-8">
+                <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/30 dark:to-purple-950/30 p-4 sm:p-8">
                   <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
                     <div className="space-y-4">
                       <div className="flex items-center gap-4">
@@ -311,9 +352,9 @@ export function DayView() {
                   </div>
                 </div>
 
-                <CardContent className="p-8">
-                  <div className="grid gap-8 lg:grid-cols-3">
-                    <div className="lg:col-span-2 space-y-6">
+                <CardContent className="p-4 sm:p-8">
+                  <div className="grid gap-6 sm:gap-8 lg:grid-cols-3">
+                    <div className="lg:col-span-2 space-y-4 sm:space-y-6">
                       <div>
                         <motion.h3 
                           className="text-lg font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-3"
@@ -405,15 +446,15 @@ export function DayView() {
                     </div>
 
                     <motion.div 
-                      className="space-y-6"
+                      className="space-y-4 sm:space-y-6"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.7 }}
                     >
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                          <div className="h-8 w-1 bg-gradient-to-b from-green-500 to-blue-500 rounded-full" />
-                          <BookOpen className="h-5 w-5" />
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                          <div className="h-6 sm:h-8 w-1 bg-gradient-to-b from-green-500 to-blue-500 rounded-full" />
+                          <BookOpen className="h-4 w-4 sm:h-5 sm:w-5" />
                           {t('journal')}
                         </h3>
                         <textarea 
@@ -426,20 +467,19 @@ export function DayView() {
                               text: e.target.value 
                             } 
                           })}
-                          className="w-full rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-4 focus:border-green-500 dark:focus:border-green-400 focus:outline-none resize-none shadow-lg"
+                          className="w-full rounded-xl border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 p-3 sm:p-4 focus:border-green-500 dark:focus:border-green-400 focus:outline-none resize-none shadow-lg text-sm sm:text-base"
                           rows={6}
                         />
                       </div>
 
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                          <div className="h-8 w-1 bg-gradient-to-b from-pink-500 to-rose-500 rounded-full" />
-                          <Camera className="h-5 w-5" />
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2 sm:gap-3">
+                          <div className="h-6 sm:h-8 w-1 bg-gradient-to-b from-pink-500 to-rose-500 rounded-full" />
+                          <Camera className="h-4 w-4 sm:h-5 sm:w-5" />
                           {t('addPhoto')}
                         </h3>
                         <motion.div 
                           className="relative"
-                          whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                         >
                           <input 
@@ -451,15 +491,15 @@ export function DayView() {
                             }}
                             className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                           />
-                          <div className="border-3 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-8 text-center hover:border-pink-400 dark:hover:border-pink-500 transition-all duration-300 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-pink-950/20 dark:to-purple-950/20">
+                          <div className="border-3 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-6 sm:p-8 text-center active:border-pink-400 dark:active:border-pink-500 transition-all duration-300 bg-gradient-to-br from-pink-50/50 to-purple-50/50 dark:from-pink-950/20 dark:to-purple-950/20">
                             <motion.div
                               animate={{ y: [0, -5, 0] }}
                               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                             >
-                              <Camera className="h-12 w-12 mx-auto text-gray-400 mb-3" />
+                              <Camera className="h-10 w-10 sm:h-12 sm:w-12 mx-auto text-gray-400 mb-2 sm:mb-3" />
                             </motion.div>
-                            <p className="text-sm font-medium text-gray-600 dark:text-gray-300">{t('clickToUpload')}</p>
-                            <p className="text-xs text-gray-400 mt-1">{t('dragDropClick')}</p>
+                            <p className="text-xs sm:text-sm font-medium text-gray-600 dark:text-gray-300">{t('clickToUpload')}</p>
+                            <p className="text-[10px] sm:text-xs text-gray-400 mt-1">{t('dragDropClick')}</p>
                           </div>
                         </motion.div>
                         

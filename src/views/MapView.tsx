@@ -356,107 +356,139 @@ export function MapView() {
 
   return (
     <div className="h-[calc(100vh-56px)] relative">
-      {/* Clean Minimal Top Controls */}
+      {/* Mobile-Optimized Controls */}
+      
+      {/* Top Bar - Mobile First */}
       <motion.div 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="absolute z-[1000] left-4 top-4 right-4 flex items-start justify-between gap-4 pointer-events-none"
+        transition={{ duration: 0.3 }}
+        className="absolute z-[1000] inset-x-0 top-0 pointer-events-none"
       >
-        {/* Left Side - Main Actions */}
-        <div className="flex flex-col gap-2 pointer-events-auto">
-          {/* Play Button */}
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button
-              onClick={startPlayback}
-              size="lg"
-              className={cn(
-                "shadow-lg font-medium transition-all",
-                isPlaying 
-                  ? "bg-red-500 hover:bg-red-600 text-white" 
-                  : "bg-blue-600 hover:bg-blue-700 text-white"
+        <div className="bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-lg pointer-events-auto">
+          <div className="px-3 py-2">
+            {/* Main Controls Row */}
+            <div className="flex items-center gap-2">
+              {/* Play Button - Prominent */}
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  onClick={startPlayback}
+                  className={cn(
+                    "font-semibold shadow-md transition-all",
+                    isPlaying 
+                      ? "bg-red-500 hover:bg-red-600 text-white" 
+                      : "bg-blue-600 hover:bg-blue-700 text-white"
+                  )}
+                >
+                  {isPlaying ? <Pause className="h-4 w-4 sm:mr-2" /> : <Play className="h-4 w-4 sm:mr-2" />}
+                  <span className="hidden sm:inline">{isPlaying ? "Stop" : "Play"}</span>
+                </Button>
+              </motion.div>
+
+              {/* Filter Button */}
+              <Button
+                variant="outline"
+                onClick={() => setShowFilterPanel(!showFilterPanel)}
+                className="bg-white dark:bg-gray-800 shadow-sm"
+                size="sm"
+              >
+                <Filter className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Filters</span>
+              </Button>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Speed Control - Mobile Optimized */}
+              <AnimatePresence>
+                {isPlaying && (
+                  <motion.div
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    className="flex items-center gap-2"
+                  >
+                    <input
+                      type="range"
+                      min="1000"
+                      max="8000"
+                      step="1000"
+                      value={playbackSpeed}
+                      onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
+                      className="w-20 sm:w-32 h-1.5 rounded-lg appearance-none cursor-pointer"
+                      style={{
+                        background: `linear-gradient(to right, 
+                          rgb(59, 130, 246) 0%, 
+                          rgb(59, 130, 246) ${((8000 - playbackSpeed) / 7000) * 100}%, 
+                          rgb(229, 231, 235) ${((8000 - playbackSpeed) / 7000) * 100}%, 
+                          rgb(229, 231, 235) 100%)`
+                      }}
+                    />
+                    <span className="text-lg">
+                      {playbackSpeed === 1000 && '🐇'}
+                      {playbackSpeed === 2000 && '🏃'}
+                      {playbackSpeed === 4000 && '🚶'}
+                      {playbackSpeed === 6000 && '🐢'}
+                      {playbackSpeed === 8000 && '🦥'}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Day Pills - Second Row */}
+            <div className="mt-2 overflow-x-auto -mx-3 px-3">
+              <div className="flex items-center gap-1.5 min-w-min">
+                {Array.from({ length: 10 }, (_, i) => i + 1).map(day => {
+                  const isSelected = mapFilter.selectedDay === day
+                  const isPlayingThisDay = isPlaying && playbackDay === day
+                  
+                  return (
+                    <motion.button
+                      key={day}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={() => setMapFilter(prev => ({ 
+                        ...prev, 
+                        selectedDay: isSelected ? undefined : day 
+                      }))}
+                      className={cn(
+                        "w-9 h-9 sm:w-10 sm:h-10 rounded-full text-sm font-bold transition-all flex items-center justify-center shrink-0",
+                        isSelected
+                          ? "bg-blue-600 text-white shadow-md"
+                          : isPlayingThisDay
+                          ? "bg-red-500 text-white shadow-md animate-pulse"
+                          : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 active:bg-gray-200 dark:active:bg-gray-600"
+                      )}
+                    >
+                      {day}
+                    </motion.button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Current Activity - Third Row (when playing) */}
+            <AnimatePresence>
+              {isPlaying && currentActivity && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700"
+                >
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
+                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
+                      Day {playbackDay}:
+                    </span>
+                    <span className="text-sm font-bold text-gray-900 dark:text-white truncate">
+                      {currentActivity}
+                    </span>
+                  </div>
+                </motion.div>
               )}
-            >
-              {isPlaying ? <Pause className="h-5 w-5 mr-2" /> : <Play className="h-5 w-5 mr-2" />}
-              {isPlaying ? "Stop" : "Play Tour"}
-            </Button>
-          </motion.div>
-
-          {/* Filter Toggle */}
-          <Button
-            variant="outline"
-            onClick={() => setShowFilterPanel(!showFilterPanel)}
-            className="bg-white dark:bg-gray-800 shadow-md"
-          >
-            <Filter className="h-4 w-4 mr-2" />
-            Filters
-          </Button>
-        </div>
-
-        {/* Right Side - Info & Speed */}
-        <div className="flex flex-col gap-2 items-end pointer-events-auto">
-          {/* Current Activity */}
-          <AnimatePresence>
-            {isPlaying && currentActivity && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg px-4 py-3 max-w-xs"
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                  <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">
-                    Day {playbackDay}
-                  </span>
-                </div>
-                <div className="text-sm font-bold text-gray-900 dark:text-white">
-                  {currentActivity}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Speed Control - Compact */}
-          <AnimatePresence>
-            {isPlaying && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg px-4 py-3"
-              >
-                <div className="flex items-center gap-3">
-                  <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                    Speed:
-                  </span>
-                  <input
-                    type="range"
-                    min="1000"
-                    max="8000"
-                    step="1000"
-                    value={playbackSpeed}
-                    onChange={(e) => setPlaybackSpeed(Number(e.target.value))}
-                    className="w-32 h-1.5 rounded-lg appearance-none cursor-pointer"
-                    style={{
-                      background: `linear-gradient(to right, 
-                        rgb(59, 130, 246) 0%, 
-                        rgb(59, 130, 246) ${((8000 - playbackSpeed) / 7000) * 100}%, 
-                        rgb(229, 231, 235) ${((8000 - playbackSpeed) / 7000) * 100}%, 
-                        rgb(229, 231, 235) 100%)`
-                    }}
-                  />
-                  <span className="text-xs font-mono text-gray-600 dark:text-gray-400">
-                    {playbackSpeed === 1000 && '🐇'}
-                    {playbackSpeed === 2000 && '🏃'}
-                    {playbackSpeed === 4000 && '🚶'}
-                    {playbackSpeed === 6000 && '🐢'}
-                    {playbackSpeed === 8000 && '🦥'}
-                  </span>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Hidden Import Input */}
@@ -478,106 +510,88 @@ export function MapView() {
         />
       </motion.div>
 
-      {/* Compact Day Pills - Top Center */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1 }}
-        className="absolute z-[1000] left-1/2 top-4 transform -translate-x-1/2 pointer-events-none"
-      >
-        <div className="bg-white dark:bg-gray-800 rounded-full shadow-lg px-3 py-2 flex items-center gap-1.5 pointer-events-auto">
-          {Array.from({ length: 10 }, (_, i) => i + 1).map(day => {
-            const isSelected = mapFilter.selectedDay === day
-            const isPlayingThisDay = isPlaying && playbackDay === day
-            
-            return (
-              <motion.button
-                key={day}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setMapFilter(prev => ({ 
-                  ...prev, 
-                  selectedDay: isSelected ? undefined : day 
-                }))}
-                className={cn(
-                  "w-7 h-7 rounded-full text-xs font-bold transition-all flex items-center justify-center",
-                  isSelected
-                    ? "bg-blue-600 text-white shadow-md"
-                    : isPlayingThisDay
-                    ? "bg-red-500 text-white shadow-md animate-pulse"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                )}
-                title={`Day ${day}`}
-              >
-                {day}
-              </motion.button>
-            )
-          })}
-        </div>
-      </motion.div>
-
-      {/* Clean Filter Panel */}
+      {/* Mobile-Friendly Filter Panel */}
       <AnimatePresence>
         {showFilterPanel && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="absolute z-[999] left-4 top-32 pointer-events-none"
-          >
-            <Card className="w-64 bg-white dark:bg-gray-800 shadow-xl pointer-events-auto">
-              <CardContent className="p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-gray-900 dark:text-white">
-                    Filters
-                  </h3>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowFilterPanel(false)}
+              className="absolute inset-0 bg-black/30 z-[999] backdrop-blur-sm pointer-events-auto"
+            />
+            
+            {/* Filter Panel - Slides from Left */}
+            <motion.div
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+              className="absolute z-[1000] left-0 top-0 bottom-0 w-64 sm:w-72 pointer-events-auto"
+            >
+              <Card className="h-full bg-white dark:bg-gray-800 shadow-2xl rounded-none sm:rounded-r-2xl">
+                <CardContent className="p-4 space-y-4 h-full overflow-y-auto">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                      Filters
+                    </h3>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => setShowFilterPanel(false)}
+                      className="h-8"
+                    >
+                      ✕
+                    </Button>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+                      City
+                    </label>
+                    <select 
+                      value={mapFilter.selectedCity || ''} 
+                      onChange={(e) => setMapFilter(prev => ({ ...prev, selectedCity: e.target.value || undefined }))}
+                      className="w-full rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+                    >
+                      <option value="">All Cities</option>
+                      {cityInfo.map(city => (
+                        <option key={city.name} value={city.name}>
+                          {city.name} ({city.pointCount})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="space-y-3">
+                    <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">
+                      Category
+                    </label>
+                    <select 
+                      value={mapFilter.selectedCategory || ''} 
+                      onChange={(e) => setMapFilter(prev => ({ ...prev, selectedCategory: e.target.value as any || undefined }))}
+                      className="w-full rounded-lg border-2 border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2.5 text-sm focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                    >
+                      <option value="">All Categories</option>
+                      <option value="sight">🎯 Sights</option>
+                      <option value="food">🍽️ Food</option>
+                      <option value="lodging">🏨 Lodging</option>
+                    </select>
+                  </div>
+
                   <Button
-                    size="sm"
-                    variant="ghost"
+                    variant="outline"
                     onClick={() => setMapFilter({ showRoute: true })}
-                    className="h-6 text-xs"
+                    className="w-full"
                   >
-                    Clear
+                    Clear All Filters
                   </Button>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    City
-                  </label>
-                  <select 
-                    value={mapFilter.selectedCity || ''} 
-                    onChange={(e) => setMapFilter(prev => ({ ...prev, selectedCity: e.target.value || undefined }))}
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm"
-                  >
-                    <option value="">All Cities</option>
-                    {cityInfo.map(city => (
-                      <option key={city.name} value={city.name}>
-                        {city.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-xs font-medium text-gray-600 dark:text-gray-400">
-                    Category
-                  </label>
-                  <select 
-                    value={mapFilter.selectedCategory || ''} 
-                    onChange={(e) => setMapFilter(prev => ({ ...prev, selectedCategory: e.target.value as any || undefined }))}
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-sm"
-                  >
-                    <option value="">All</option>
-                    <option value="sight">🎯 Sights</option>
-                    <option value="food">🍽️ Food</option>
-                    <option value="lodging">🏨 Lodging</option>
-                  </select>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
@@ -745,47 +759,49 @@ export function MapView() {
         }} 
       />
 
-      {/* Clean Bottom Panel - City Chips */}
+      {/* Mobile-Friendly Bottom Panel - City Chips */}
       <motion.div
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="absolute bottom-4 left-4 right-4 z-[1000] pointer-events-none"
+        className="absolute bottom-0 inset-x-0 z-[1000] pointer-events-none safe-bottom"
       >
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl px-4 py-3 pointer-events-auto">
-          <div className="flex items-center gap-2 overflow-x-auto">
-            <span className="text-xs font-bold text-gray-500 dark:text-gray-400 shrink-0">
-              Cities:
-            </span>
-            {cityInfo.map(city => {
-              const isSelected = mapFilter.selectedCity === city.name
-              
-              return (
-                <motion.button
-                  key={city.name}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setMapFilter(prev => ({ 
-                    ...prev, 
-                    selectedCity: isSelected ? undefined : city.name 
-                  }))}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all shrink-0",
-                    isSelected
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
-                  )}
-                >
-                  <span>{city.name}</span>
-                  <span className={cn(
-                    "text-[10px]",
-                    isSelected ? "text-white/80" : "text-gray-500 dark:text-gray-400"
-                  )}>
-                    {city.pointCount}
-                  </span>
-                </motion.button>
-              )
-            })}
+        <div className="bg-white/98 dark:bg-gray-900/98 backdrop-blur-lg shadow-2xl pointer-events-auto">
+          <div className="px-3 py-2.5 overflow-x-auto">
+            <div className="flex items-center gap-2 min-w-min">
+              <span className="text-xs font-bold text-gray-500 dark:text-gray-400 shrink-0">
+                Cities
+              </span>
+              <div className="w-px h-5 bg-gray-300 dark:bg-gray-600" />
+              {cityInfo.map(city => {
+                const isSelected = mapFilter.selectedCity === city.name
+                
+                return (
+                  <motion.button
+                    key={city.name}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setMapFilter(prev => ({ 
+                      ...prev, 
+                      selectedCity: isSelected ? undefined : city.name 
+                    }))}
+                    className={cn(
+                      "flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-semibold transition-all shrink-0 min-h-[44px]",
+                      isSelected
+                        ? "bg-blue-600 text-white shadow-md"
+                        : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 active:bg-gray-200 dark:active:bg-gray-600"
+                    )}
+                  >
+                    <span>{city.name}</span>
+                    <span className={cn(
+                      "text-[10px] px-1.5 py-0.5 rounded",
+                      isSelected ? "bg-white/30 text-white" : "bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400"
+                    )}>
+                      {city.pointCount}
+                    </span>
+                  </motion.button>
+                )
+              })}
+            </div>
           </div>
         </div>
       </motion.div>

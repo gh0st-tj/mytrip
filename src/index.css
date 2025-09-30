@@ -124,3 +124,25 @@ input[type="range"]::-moz-range-thumb:hover {
   transform: scale(1.2);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
+
+/* Safe area for iOS devices */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Prevent overscroll on mobile */
+body {
+  overscroll-behavior: none;
+}
+
+/* Better touch targets on mobile */
+@media (max-width: 640px) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
